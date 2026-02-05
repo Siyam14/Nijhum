@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Happy Valentine's Day Nijhum ❤️</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+/* ===== BODY ===== */
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  background-size:400% 400%;
+  animation:bgMove 12s ease infinite;
+  overflow-y:auto;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* ===== COUPLE ===== */
+.couple{
+  position:fixed;
+  font-size:90px;
+  opacity:.18;
+  pointer-events:none;
+  animation:coupleFloat 10s ease-in-out infinite alternate;
+}
+
+.couple.left{left:3%;bottom:12%;}
+.couple.right{right:3%;top:18%;}
+
+@keyframes coupleFloat{
+  from{transform:translateY(0);}
+  to{transform:translateY(-35px);}
+}
+
+/* ===== CARD ===== */
+.card{
+  width:100%;
+  max-width:460px;
+  padding:20px 18px 40px;
+  text-align:center;
+  color:white;
+  z-index:2;
+}
+
+/* ===== TITLE ===== */
+h1{
+  font-size:2.2rem;
+  margin-bottom:6px;
+}
+
+.glow-name{
+  text-shadow:0 0 10px #ff2f68,0 0 25px #ff7eb3;
+  animation:pulse 2s infinite alternate;
+}
+
+@keyframes pulse{
+  from{ text-shadow:0 0 8px #ff2f68;}
+  to{ text-shadow:0 0 22px #fff;}
+}
+
+.tap{
+  font-size:.85rem;
+  margin-bottom:10px;
+  opacity:.9;
+}
+
+/* ===== ALBUM ===== */
+.album{
+  width:100%;
+  max-width:320px;
+  height:300px;
+  margin:18px auto 12px;
+  position:relative;
+}
+
+.photo{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%) scale(.7);
+  width:280px;
+  height:280px;
+  border-radius:20px;
+  object-fit:cover;
+  opacity:0;
+  transition:1s;
+  box-shadow:0 0 18px rgba(255,255,255,.5);
+}
+
+.photo.active{
+  transform:translateX(-50%) scale(1);
+  opacity:1;
+  z-index:3;
+}
+
+.photo.prev{
+  transform:translateX(-170%) scale(.5);
+  opacity:.6;
+}
+
+.photo.next{
+  transform:translateX(70%) scale(.5);
+  opacity:.6;
+}
+
+/* ===== TEXT ===== */
+p{font-size:1.05rem;}
+
+.bangla-text{
+  font-weight:700;
+  min-height:75px;
+}
+
+/* ===== HEARTS ===== */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:22px;
+  animation:floatUp linear forwards;
+  pointer-events:none;
+}
+
+@keyframes floatUp{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+}
+
+/* ===== MOBILE FIX ===== */
+@media(max-width:480px){
+
+  h1{font-size:2.1rem;}
+
+  .bangla-text{font-size:1.1rem;}
+
+  .couple{font-size:70px;}
+
+}
+</style>
+</head>
+
+<body onclick="startMusic()">
+
+<div class="couple left">👩‍❤️‍👨</div>
+<div class="couple right">👩‍❤️‍👨</div>
+
+<div class="card">
+
+<h1>Happy Valentine’s Day <span class="glow-name">Nijhum</span> ❤️</h1>
+
+<p class="tap">💖 Tap anywhere if music doesn’t start 🎵</p>
+
+<div class="album">
+  <img class="photo" src="nj1.jpeg">
+  <img class="photo" src="nj2.jpeg">
+  <img class="photo" src="nj3.jpeg">
+  <img class="photo" src="nj4.jpeg">
+</div>
+
+<p class="bangla-text" id="typing"></p>
+
+<p>
+<br>Today and always — you are my favorite feeling 💕<br><br>
+<b>Be My Rose?</b><br><br>
+— From —<br>
+<b style="font-size:1.5rem;">Siyam ❤️</b>
+</p>
+
+</div>
+
+<audio id="bgMusic" autoplay loop muted>
+<source src="Nijhum.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* MUSIC */
+const music=document.getElementById("bgMusic");
+music.volume=0;
+
+window.addEventListener("load",()=>{
+  music.muted=false;
+  music.play().catch(()=>{});
+  let v=0;
+  const fade=setInterval(()=>{
+    if(v<1){v+=.05;music.volume=v;}
+    else clearInterval(fade);
+  },200);
+});
+
+function startMusic(){
+  if(music.paused) music.play();
+}
+
+/* TYPING */
+const text=`ও....Nijhum,
+সব কথা বলা হয় না—
+কিছু অনুভূতি নীরবেই সুন্দর থাকে`;
+
+let i=0;
+const el=document.getElementById("typing");
+
+function typeBangla(){
+  if(i<text.length){
+    el.innerHTML+=text[i]==="\n"?"<br>":text[i];
+    i++;
+    setTimeout(typeBangla,55);
+  }
+}
+typeBangla();
+
+/* HEART FLOAT */
+function createHeart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=3+Math.random()*4+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+}
+setInterval(createHeart,500);
+
+/* CAROUSEL */
+const photos=document.querySelectorAll(".photo");
+let current=0;
+
+function updateCarousel(){
+  photos.forEach((img,i)=>{
+    img.className="photo";
+    if(i===current) img.classList.add("active");
+    else if(i===(current-1+photos.length)%photos.length)
+      img.classList.add("prev");
+    else if(i===(current+1)%photos.length)
+      img.classList.add("next");
+  });
+}
+updateCarousel();
+
+setInterval(()=>{
+  current=(current+1)%photos.length;
+  updateCarousel();
+},3500);
+</script>
+
+</body>
+</html>
